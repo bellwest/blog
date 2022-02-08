@@ -1,4 +1,4 @@
-const { SSL_OP_MICROSOFT_SESS_ID_BUG } = require("constants");
+import { SSL_OP_MICROSOFT_SESS_ID_BUG } from "constants";
 
 let postId = 1;
 
@@ -14,25 +14,25 @@ const posts = [
 POST /api/posts
 { title, body }
 */
-exports.write = ctx => {
+export const write = ctx => {
   const { title, body } = ctx.request.body;
   postId += 1;
   const post = { id: postId, title, body };
   posts.push(post);
   ctx.body = post;
-};
+}
 
 /*
 GET /api/posts
 */
-exports.list = ctx => {
+export const list = ctx => {
   ctx.body = posts;
-};
+}
 
 /*
 GET /api/posts/:id
 */
-exports.read = ctx => {
+export const read = ctx => {
   const { id } = ctx.params;
   const post = posts.find(p => p.id.toString() === id);
   if (!post) {
@@ -43,12 +43,12 @@ exports.read = ctx => {
     return;
   }
   ctx.body = post;
-};
+}
 
 /*
 DELETE /api/posts/:id
 */
-exports.remove = ctx => {
+export const remove = ctx => {
   const { id } = ctx.params;
   const index = posts.findIndex(p => p.id.toString() === id);
   if (!index) {
@@ -66,7 +66,7 @@ exports.remove = ctx => {
 PUT /api/posts/:id
 { title, body }
 */
-exports.replace = ctx => {
+export const replace = ctx => {
   const { id } = ctx.params;
   const index = posts.findIndex(p => p.id.toString() === id);
   if (!index) {
@@ -81,13 +81,13 @@ exports.replace = ctx => {
     ...ctx.request.body,
   };
   ctx.body = posts[index];
-};
+}
 
 /*
 PATCH /api/posts/:id
 { title, body }
 */
-exports.update = ctx => {
+export const update = ctx => {
   const { id } = ctx.params;
   const index = posts.findIndex(p => p.id.toString() === id);
   if (!index) {
@@ -102,4 +102,4 @@ exports.update = ctx => {
     ...ctx.request.body,
   };
   ctx.body = posts[index];
-};
+}
